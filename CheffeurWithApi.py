@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
         self.msg_box = QMessageBox(self)
         self.msg_box.setIcon(QMessageBox.Icon.Information)
         self.msg_box.setWindowTitle("Help")
-        self.msg_box.setInformativeText("Type an ingredient, press Enter to fetch calories, then Add/Edit/Delete.")
+        self.msg_box.setInformativeText("Type an ingredient, press Enter to fetch calories, then Add. If you want to edit, choose your item, then hit edit, type in empty box above, and hit edit again. To delete, choose item, then delete")
         self.msg_box.exec()
 
     def fetch_calories(self):
@@ -127,3 +127,4 @@ app = QApplication(sys.argv)
 window = MainWindow()
 window.show()
 app.exec()
+
