@@ -1,0 +1,86 @@
+# ---------------------------------------
+# 🐍 Python general
+# ---------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+
+# Byte-compiled / optimized / DLL files
+*.pyo
+*.pyd
+*.pdb
+*.dll
+*.so
+*.dylib
+
+# Logs and debug
+*.log
+*.pot
+*.pyproj
+*.sln
+*.sqlite3
+*.db
+
+# ---------------------------------------
+# 🧱 PyQt6 / Qt related
+# ---------------------------------------
+
+# Designer-generated UI and resource cache
+*.ui~
+*.qrc~
+*.pyc
+*.qmlc
+*.qmltypes
+
+# Compiled UI / resource files (if generated)
+*_ui.py
+*_rc.py
+
+# Qt Creator specific
+.idea/
+*.pro.user*
+*.qbs.user*
+*.creator.user*
+*.autosave
+
+# PyInstaller / build tools
+build/
+dist/
+*.spec
+
+# ---------------------------------------
+# 💻 OS-specific
+# ---------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*.swp
+*~
+.nfs*
+
+# ---------------------------------------
+# 🧪 Testing / Temporary
+# ---------------------------------------
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.mypy_cache/
+.cache/
