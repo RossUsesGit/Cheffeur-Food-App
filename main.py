@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from themes import Themes
+from splash import SplashScreen
 import sys, requests
 
 # ✅ Spoonacular API key (replace with your own)
@@ -19,7 +20,7 @@ class MainWindow(QMainWindow):
         self.setFixedSize(850, 700)                    # Fixed window size
         self.current_calories = "N/A"                  # Default calorie value
         self.setStyleSheet(Themes.default())                  
-
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         # --- Initialize components ---
         self.setupMenu()                               # Create top menu bar
         self.setupUI()                                 # Create main interface
@@ -51,32 +52,31 @@ class MainWindow(QMainWindow):
 
         # --- Buttons for table actions ---
         self.add_ingredient = QPushButton("Add")
-        self.edit_ingredient = QPushButton("Edit")
         self.delete_ingredient = QPushButton("Delete")
         self.calorie_search = QPushButton("Nutrition Search")
         self.recipe_search = QPushButton("Recipe Search")
 
         # Connect button actions to functions
         self.add_ingredient.clicked.connect(self.add_ingredient_row)
-        self.edit_ingredient.clicked.connect(self.edit_ingredient_row)
         self.delete_ingredient.clicked.connect(self.delete_ingredient_row)
+        self.calorie_search.clicked.connect(self.fetch_calories)
 
         # --- Layout for input and buttons ---
         button_layout = QGridLayout()
         button_layout.addWidget(self.text_edit,0,0,1,1)
-        button_layout.addWidget(self.amount_edit,2,0,1,1)
-        button_layout.addWidget(self.unit_edit,1,0,1,1)
+        button_layout.addWidget(self.amount_edit,1,0,1,1)
+        button_layout.addWidget(self.unit_edit,2,0,1,1)
         button_layout.addWidget(self.add_ingredient,0,1,1,1)
-        button_layout.addWidget(self.edit_ingredient,0,2,1,1)
-        button_layout.addWidget(self.delete_ingredient,1,1,1,1)
-        button_layout.addWidget(self.calorie_search,1,2,1,1)
+        button_layout.addWidget(self.delete_ingredient,0,2,1,1)
+        button_layout.addWidget(self.calorie_search,1,1,1,2)
         button_layout.addWidget(self.recipe_search,2,1,2,2)
 
         # --- Table setup ---
-        self.table = QTableWidget(0, 10)  # 10 columns total
+        self.table = QTableWidget(0, 11)  # 10 columns total
         self.table.setHorizontalHeaderLabels([
             "Ingredient",
             "Amount",
+            "Unit",
             "Calories (kcal)",
             "Fat (g)",
             "Saturated Fat (g)",
@@ -167,62 +167,66 @@ class MainWindow(QMainWindow):
         msg_box.exec()
 
 
-    # -----------------------------
-    # 🍽️ FETCH CALORIES FROM API
-    # -----------------------------
     def fetch_calories(self):
-        ingredient = self.text_edit.text()  # ✅ Get text from QLineEdit
-        if not ingredient:
-            return
+        for row in range(self.table.rowCount()):
+            ingredient = self.table.item(row, 0).text()
+            amount = self.table.item(row, 1).text()
+            unit = self.table.item(row, 2).text()
 
-        # Step 1: Search for ingredient ID
-        url = f"https://api.spoonacular.com/food/ingredients/search?query={ingredient}&apiKey={API_KEY}"
-        response = requests.get(url)
-        data = response.json()
+            url = f"https://api.spoonacular.com/food/ingredients/search?query={ingredient}&apiKey={API_KEY}"
+            response = requests.get(url)
+            data = response.json()
 
-        if data["results"]:
+            if not data["results"]:
+                continue
+
             ingredient_id = data["results"][0]["id"]
-
-            # Step 2: Fetch ingredient info (nutrition)
-            info_url = f"https://api.spoonacular.com/food/ingredients/{ingredient_id}/information?amount=100&unit=gram&apiKey={API_KEY}"
+            info_url = f"https://api.spoonacular.com/food/ingredients/{ingredient_id}/information?amount={amount}&unit={unit}&apiKey={API_KEY}"
             info_response = requests.get(info_url)
             info_data = info_response.json()
 
-            # Step 3: Extract calories
             nutrients = info_data.get("nutrition", {}).get("nutrients", [])
-            calories = next((n["amount"] for n in nutrients if n["name"] == "Calories"), "N/A")
-            self.current_calories = calories
-        else:
-            self.current_calories = "N/A"
+
+            def get(name):
+                return str(next((n["amount"] for n in nutrients if n["name"] == name), "N/A"))
+
+            self.table.setItem(row, 3, QTableWidgetItem(get("Calories")))
+            self.table.setItem(row, 4, QTableWidgetItem(get("Fat")))
+            self.table.setItem(row, 5, QTableWidgetItem(get("Saturated Fat")))  
+            self.table.setItem(row, 6, QTableWidgetItem(get("Carbohydrates")))
+            self.table.setItem(row, 7, QTableWidgetItem(get("Sugar")))
+            self.table.setItem(row, 8, QTableWidgetItem(get("Protein")))
+            self.table.setItem(row, 9, QTableWidgetItem(get("Cholesterol")))
+            self.table.setItem(row, 10, QTableWidgetItem(get("Sodium")))
 
 
-    # -----------------------------
-    # ➕ ADD INGREDIENT ROW
-    # -----------------------------
     def add_ingredient_row(self):
         ingredient = self.text_edit.text()
+        unit = self.unit_edit.text()
+        amount = self.amount_edit.text()
+
         if not ingredient:
-            QMessageBox.warning(self, "No ingredient Entered", "Error. No ingredient Entered.")
+            QMessageBox.warning(self, "Error", "No ingredient Entered.")
+            self.clear_inputs()
+            return
+        if not amount:
+            QMessageBox.warning(self, "Error", "No Amount Entered.")
+            self.clear_inputs()
+            return
+        if not unit:
+            QMessageBox.warning(self, "Error", "No Unit Entered.")
+            self.clear_inputs()
+            return
+       
 
         row_position = self.table.rowCount()
         self.table.insertRow(row_position)
         self.table.setItem(row_position, 0, QTableWidgetItem(ingredient))
-        self.table.setItem(row_position, 1, QTableWidgetItem(str(self.current_calories)))
+        self.table.setItem(row_position,1, QTableWidgetItem(amount))
+        self.table.setItem(row_position,2, QTableWidgetItem(unit))
+        
 
-        self.text_edit.clear()  # ✅ Clear input box after adding
-
-
-    # -----------------------------
-    # ✏️ EDIT SELECTED ROW
-    # -----------------------------
-    def edit_ingredient_row(self):
-        selected = self.table.currentRow()
-        if selected >= 0:
-            ingredient = self.text_edit.text()
-            self.table.setItem(selected, 0, QTableWidgetItem(ingredient))
-            self.table.setItem(selected, 1, QTableWidgetItem(str(self.current_calories)))
-            self.text_edit.clear()
-
+        self.clear_inputs()
 
     # -----------------------------
     # ❌ DELETE SELECTED ROW
@@ -231,6 +235,8 @@ class MainWindow(QMainWindow):
         selected = self.table.currentRow()
         if selected >= 0:
             self.table.removeRow(selected)
+        else:
+            QMessageBox.warning(self,"Error", "No items to delete.")
 
     def change_theme(self,theme_name):
         if theme_name == "Default":
@@ -247,10 +253,17 @@ class MainWindow(QMainWindow):
              self.setStyleSheet(Themes.carbon_rose())
 
 
+    def clear_inputs(self):
+        self.text_edit.clear()
+        self.unit_edit.clear()
+        self.amount_edit.clear()
+
+
 # -----------------------------
 # 🚀 RUN APPLICATION
 # -----------------------------
 app = QApplication(sys.argv)
 window = MainWindow()
+splash = SplashScreen()
 window.show()
 app.exec()
