@@ -1,59 +1,94 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QProgressBar
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QFont
+from PyQt6.QtWidgets import (
+    QApplication, QWidget, QLabel, QProgressBar, QVBoxLayout, QGraphicsOpacityEffect
+)
+from PyQt6.QtCore import Qt, QTimer, QPropertyAnimation, pyqtSignal
+from PyQt6.QtGui import QPixmap, QFont
 import sys
 
-class SplashScreen(QWidget):
+class SplashScreen1(QWidget):
+    finished = pyqtSignal()
+
     def __init__(self):
         super().__init__()
+        
+
+        # --- Window setup ---
         self.setFixedSize(850, 700)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
-        self.setStyleSheet("""
-            QWidget {
-                background-image: url('imgs/brown_ls.png');
-                background-repeat: no-repeat;
-                background-position: center;
-                background-color: #1E1E1E;
-                color: white;
-                border-radius: 15px;
-            }
-        """)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
-        layout = QVBoxLayout()
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # --- Background Image ---
+        self.bg_label = QLabel(self)
+        self.bg_label.setPixmap(
+            QPixmap(r"assets\imgs\brown_ls.png").scaled(
+                self.size(),
+                Qt.AspectRatioMode.IgnoreAspectRatio,   # Fill entire screen
+                Qt.TransformationMode.SmoothTransformation
+            )
+        )
+        self.bg_label.setGeometry(0, 0, 850, 700)  # Fill whole window
 
-        self.title = QLabel("🍔 Calorie Tracker Loading...")
-        self.title.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold))
-        self.title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        # --- Overlay Layout ---
+        self.overlay = QWidget(self)
+        self.overlay.setGeometry(0, 0, 850, 700)
+        self.overlay.setStyleSheet("background: transparent;")  # Invisible overlay
 
-        self.progress = QProgressBar()
+        overlay_layout = QVBoxLayout(self.overlay)
+        overlay_layout.setAlignment(Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignHCenter)
+        overlay_layout.setContentsMargins(0, 0, 0, 40)  # Add bottom spacing for text and bar
+
+        # --- Text Label ---
+        self.label = QLabel("Preparing food...", self.overlay)
+        self.label.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold))
+        self.label.setStyleSheet("color: white")
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        # --- Progress Bar ---
+        self.progress = QProgressBar(self.overlay)
+        self.progress.setFixedWidth(400)
+        self.progress.setFixedHeight(20)
         self.progress.setRange(0, 100)
+        self.progress.setValue(0)
+        self.progress.setTextVisible(False)
+
         self.progress.setStyleSheet("""
             QProgressBar {
-                border: 2px solid #4CAF50;
-                border-radius: 8px;
-                text-align: center;
-                background-color: #2E2E2E;
+                background-color: rgba(255, 255, 255, 0.15);
+                border: none;
+                border-radius: 10px;
             }
             QProgressBar::chunk {
-                background-color: #4CAF50;
-                width: 10px;
-                margin: 1px;
+                background-color: white;
+                border-radius: 10px;
+                margin: 0px; 
             }
         """)
 
-        layout.addWidget(self.title)
-        layout.addWidget(self.progress)
-        self.setLayout(layout)
+        # --- Add widgets to overlay ---
+        overlay_layout.addWidget(self.progress)
+        overlay_layout.addWidget(self.label)
 
+        # Fade in Animation
+        self.opacity_effect = QGraphicsOpacityEffect()
+        self.setGraphicsEffect(self.opacity_effect)
+        self.animation = QPropertyAnimation(self.opacity_effect, b"opacity")
+        self.animation.setDuration(1500)
+        self.animation.setStartValue(0)
+        self.animation.setEndValue(1)
+        self.animation.start()
+
+        # Timer
         self.counter = 0
         self.timer = QTimer()
-        self.timer.timeout.connect(self.load)
-        self.timer.start(50)
+        self.timer.timeout.connect(self.loading)
+        self.timer.start(30)
 
-    def load(self):
-        self.counter += 2
+    def loading(self):
+        self.counter += 1
         self.progress.setValue(self.counter)
         if self.counter >= 100:
             self.timer.stop()
             self.close()
+            self.finished.emit()
+        
+

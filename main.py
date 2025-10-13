@@ -1,16 +1,11 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from themes import Themes
-from splash import SplashScreen
+from splash import SplashScreen1
 import sys, requests
 
-# ✅ Spoonacular API key (replace with your own)
 API_KEY = "b30c48b00e76492eae8351c72971925d"
 
-
-# -----------------------------
-# 🧠 MAIN WINDOW CLASS
-# -----------------------------
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -50,7 +45,7 @@ class MainWindow(QMainWindow):
         self.amount_edit.setStyleSheet("QLineEdit { font-style: italic; }")
         self.amount_edit.setMinimumWidth(200)  
 
-        # --- Buttons for table actions ---
+        # Table Action Buttons
         self.add_ingredient = QPushButton("Add")
         self.delete_ingredient = QPushButton("Delete")
         self.calorie_search = QPushButton("Nutrition Search")
@@ -61,7 +56,7 @@ class MainWindow(QMainWindow):
         self.delete_ingredient.clicked.connect(self.delete_ingredient_row)
         self.calorie_search.clicked.connect(self.fetch_calories)
 
-        # --- Layout for input and buttons ---
+        # Inputs and Button Layout
         button_layout = QGridLayout()
         button_layout.addWidget(self.text_edit,0,0,1,1)
         button_layout.addWidget(self.amount_edit,1,0,1,1)
@@ -71,8 +66,8 @@ class MainWindow(QMainWindow):
         button_layout.addWidget(self.calorie_search,1,1,1,2)
         button_layout.addWidget(self.recipe_search,2,1,2,2)
 
-        # --- Table setup ---
-        self.table = QTableWidget(0, 11)  # 10 columns total
+        # Table
+        self.table = QTableWidget(0, 11)  
         self.table.setHorizontalHeaderLabels([
             "Ingredient",
             "Amount",
@@ -102,10 +97,6 @@ class MainWindow(QMainWindow):
         self.container.setLayout(self.main_layout)
         self.setCentralWidget(self.container)
 
-
-    # -----------------------------
-    # 🧾 MENU BAR SETUP
-    # -----------------------------
     def setupMenu(self):
         self.menu_bar = self.menuBar()
 
@@ -124,7 +115,7 @@ class MainWindow(QMainWindow):
         self.exit_button = self.options_menu.addAction("Exit")
         self.exit_button.triggered.connect(lambda: self.close())
 
-        # --- Themes Menu (for future expansion) ---
+        # Themes Menu
         self.themes_menu = self.menu_bar.addMenu("Themes")
         self.default_theme = self.themes_menu.addAction("Default")
         self.strawberry_theme = self.themes_menu.addAction("Strawberry")
@@ -140,10 +131,6 @@ class MainWindow(QMainWindow):
         self.matrix_theme.triggered.connect(lambda:self.change_theme("Matrix"))
         self.carbon_rose_theme.triggered.connect(lambda:self.change_theme("Carbon Rose"))
 
-
-    # -----------------------------
-    # ℹ️ ABOUT WINDOW
-    # -----------------------------
     def show_about_window(self):
         msg_box = QMessageBox(self)
         msg_box.setIcon(QMessageBox.Icon.Information)
@@ -151,10 +138,6 @@ class MainWindow(QMainWindow):
         msg_box.setText("CHEFFEUR - Ingredient Tracker with Calorie Lookup")
         msg_box.exec()
 
-
-    # -----------------------------
-    # ❓ HELP WINDOW
-    # -----------------------------
     def show_help_window(self):
         msg_box = QMessageBox(self)
         msg_box.setIcon(QMessageBox.Icon.Information)
@@ -217,20 +200,14 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "Error", "No Unit Entered.")
             self.clear_inputs()
             return
-       
-
+    
         row_position = self.table.rowCount()
         self.table.insertRow(row_position)
         self.table.setItem(row_position, 0, QTableWidgetItem(ingredient))
         self.table.setItem(row_position,1, QTableWidgetItem(amount))
         self.table.setItem(row_position,2, QTableWidgetItem(unit))
-        
-
         self.clear_inputs()
 
-    # -----------------------------
-    # ❌ DELETE SELECTED ROW
-    # -----------------------------
     def delete_ingredient_row(self):
         selected = self.table.currentRow()
         if selected >= 0:
@@ -252,18 +229,14 @@ class MainWindow(QMainWindow):
         elif theme_name == "Carbon Rose":
              self.setStyleSheet(Themes.carbon_rose())
 
-
     def clear_inputs(self):
         self.text_edit.clear()
         self.unit_edit.clear()
         self.amount_edit.clear()
 
-
-# -----------------------------
-# 🚀 RUN APPLICATION
-# -----------------------------
 app = QApplication(sys.argv)
 window = MainWindow()
-splash = SplashScreen()
-window.show()
+splash = SplashScreen1()
+splash.show()
+splash.finished.connect(lambda: window.show())
 app.exec()
