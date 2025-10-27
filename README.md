@@ -9,7 +9,7 @@
  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
 ```
 
-The name comes from combining two words: *“chef,”* someone who cooks food, and *“chauffeur,”* someone who drives a private automobile or limousine. Together, **Cheffeur** refers to someone who drives you toward good and healthy food — essentially, a chef chauffeur.
+The name comes from combining two words: *“chef,”* someone who cooks food, and *“chauffeur,”* someone who drives a private automobile or limousine. Together, **Cheffeur** refers to someone who drives you toward good and healthy food — essentially, a chef chauffeur
 
 Developed by Group 1 of OOPB.
 ```
