@@ -13,7 +13,7 @@ The name comes from combining two words: *“chef,”* someone who cooks food, a
 
 Developed by Group 1 of OOPB.
 ```
-list_of_names = ["Ross Andrew Bulaong", "Jerald San Interno", "Madhel Kathlyn Javillonar", "John Marvin Masongsong", "Joshua Paul Pios"]
+list_of_names = ["Ross Andrew Bulaong", "Jerald San Interno", "Madhel Kathlyn Ann Javillonar", "John Marvin Masongsong", "Joshua Paul Pios"]
 for name in list_of_names:
   print(name)
 ```
