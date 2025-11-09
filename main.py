@@ -194,19 +194,42 @@ class MainWindow(QMainWindow):
         msg_box = QMessageBox(self)
         msg_box.setIcon(QMessageBox.Icon.Information)
         msg_box.setWindowTitle("About")
-        msg_box.setText("CHEFFEUR - Ingredient Tracker with Calorie Lookup")
+        msg_box.setTextFormat(Qt.TextFormat.RichText)
+        msg_box.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
+        msg_box.setText(
+            "<b>CHEFFEUR - Ingredient Tracker with Calorie Lookup</b><br><br>"
+            "Version: 1.0<br>"
+            "Developed by: Group 1 of OOPB<br><br>"
+            "Cheffeur helps you track ingredients, calculate nutritional values, "
+            "and search for recipes using the Spoonacular API.<br><br>"
+            "For more information, visit the "
+            "<a href='https://github.com/your-username/cheffeur-food-app'>project repository</a>."
+        )
         msg_box.exec()
+
 
     def ShowHelpWindow(self):
         msg_box = QMessageBox(self)
         msg_box.setIcon(QMessageBox.Icon.Information)
         msg_box.setWindowTitle("Help")
         msg_box.setInformativeText(
-            "Type an ingredient, press Enter to fetch calories, then Add.\n"
-            "To edit: select a row, type new ingredient, press Edit.\n"
-            "To delete: select a row, press Delete."
+            "Type an ingredient by adding the name, amount, and unit within the dedicated input boxes. "
+            "Press the Add button to add the ingredient to the table.\n\n"
+            
+            "To delete ingredients from the table, simply click which ingredient you want to delete, "
+            "and press the Delete button.\n\n"
+            
+            "Once done, you may press one of Cheffeur's two main buttons: "
+            "Nutrition Search or Recipe Search.\n\n"
+            
+            "• Nutrition Search — provides all of the nutritional values that the ingredient contains.\n"
+            "• Recipe Search — opens a new window and searches for recipes that contain the ingredients you've entered. Also returns the link where the recipe details are included, as well as the servings and cooking time.\n\n"
+            
+            "Alternatively, you may press Recipe Search without adding any ingredients, "
+            "and search for recipes by entering a comma-separated list (e.g., chicken, soy sauce, vinegar)."
         )
         msg_box.exec()
+
 
     def FetchCalories(self):
         row = self.table.rowCount()

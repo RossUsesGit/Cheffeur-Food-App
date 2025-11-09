@@ -46,6 +46,12 @@ Users can input ingredients based on three criteria â€” name, unit, and amount â
   <img src="https://spoonacular.com/application/frontend/images/logo-simple-framed-green-gradient.svg" alt="Spoonacular API" width="50" height="50"/>
 </a>
 
+# Demo
+![Nutrition Search](assets\tests\nutrition-search.png)
+![Nutrition Search 2](assets\tests\nutrition-search2.png)
+![Recipe Search](assets\tests\recipe-search.png)
+ 
+
 # Team
 Developed by Group 1 of OOPB.
 ```
