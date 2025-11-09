@@ -56,20 +56,21 @@ Users can input ingredients based on three criteria â€” name, unit, and amount â
 <p>Cheffeur 1.0 offers more than 10 themes! Examples are:</p>
 
 ## Default
-<img src="assets/themes_sample/default/default-main-window.png" alt="Default Main Window" width="600"/><br>
-<img src="assets/themes_sample/default/default-recipe-window.png" alt="Default Recipe Window" width="600"/><br>
+<img src="assets/themes_sample/default/default-main-window.png" alt="Default Main Window"/><br>
+<img src="assets/themes_sample/default/default-recipe-window.png" alt="Default Recipe Window"/><br>
 
 ## Dark Mode
-<img src="assets/themes_sample/dark-mode/dark-mode-main-window.png" alt="Dark Mode Main Window" width="600"/><br>
-<img src="assets/themes_sample/dark-mode/dark-mode-recipe-window.png" alt="Dark Mode Recipe Window" width="600"/><br>
+<img src="assets/themes_sample/dark-mode/dark-mode-main-window.png" alt="Dark Mode Main Window"/><br>
+<img src="assets/themes_sample/dark-mode/dark-mode-recipe-window.png" alt="Dark Mode Recipe Window"/><br>
 
 ## Blue Baby
-<img src="assets/themes_sample/blue-baby/blue-baby-main-window.png" alt="Blue Baby Main Window" width="600"/><br>
-<img src="assets/themes_sample/blue-baby/blue-baby-recipe-window.png" alt="Blue Baby Recipe Window" width="600"/><br>
+<img src="assets/themes_sample/blue-baby/blue-baby-main-window.png" alt="Blue Baby Main Window"/><br>
+<img src="assets/themes_sample/blue-baby/blue-baby-recipe-window.png" alt="Blue Baby Recipe Window"/><br>
 
 ## Strawberry
-<img src="assets/themes_sample/strawberry/strawberry-main-window.png" alt="Strawberry Main Window" width="600"/><br>
-<img src="assets/themes_sample/strawberry/strawberry-recipe-window.png" alt="Strawberry Recipe Window" width="600"/>
+<img src="assets/themes_sample/strawberry/strawberry-main-window.png" alt="Strawberry Main Window"/><br>
+<img src="assets/themes_sample/strawberry/strawberry-recipe-window.png" alt="Strawberry Recipe Window"/>
+
 
 
 
