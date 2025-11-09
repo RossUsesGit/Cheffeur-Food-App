@@ -40,7 +40,7 @@ Users can input ingredients based on three criteria â€” name, unit, and amount â
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" width="50" height="50"/>
 </a>
 <a href="https://www.riverbankcomputing.com/software/pyqt/intro" target="_blank">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/PyQt_logo.svg" alt="PyQt6" width="50" height="50"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Qt_logo_2016.svg" alt="PyQt6 (Qt logo)" width="50" height="50"/>
 </a>
 <a href="https://spoonacular.com/food-api" target="_blank">
   <img src="https://spoonacular.com/application/frontend/images/logo-simple-framed-green-gradient.svg" alt="Spoonacular API" width="50" height="50"/>
