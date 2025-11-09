@@ -47,10 +47,12 @@ Users can input ingredients based on three criteria â€” name, unit, and amount â
 </a>
 
 # Demo
-![Nutrition Search](assets\tests\nutrition-search.png)
-![Nutrition Search 2](assets\tests\nutrition-search2.png)
-![Recipe Search](assets\tests\recipe-search.png)
- 
+<div align="center">
+  <img src="assets/tests/nutrition-search.png" alt="NutritionSearch" width="200"/>
+  <img src="assets/tests/nutrition-search2.png" alt="NutritionSearch2" width="200"/>
+  <img src="assets/tests/recipe-search.png" alt="RecipeSearch" width="200"/>
+</div>
+
 
 # Team
 Developed by Group 1 of OOPB.
