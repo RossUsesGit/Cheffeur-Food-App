@@ -203,7 +203,7 @@ class MainWindow(QMainWindow):
             "Cheffeur helps you track ingredients, calculate nutritional values, "
             "and search for recipes using the Spoonacular API.<br><br>"
             "For more information, visit the "
-            "<a href='https://github.com/your-username/cheffeur-food-app'>project repository</a>."
+            "<a href='https://github.com/RossUsesGit/cheffeur-food-app'>project repository</a>."
         )
         msg_box.exec()
 
