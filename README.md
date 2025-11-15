@@ -35,6 +35,10 @@ Users can input ingredients based on three criteria — name, unit, and amount �
 * Finds recipes from Spoonacular that contain all of the inputted ingredients.
 * Alternatively, users can skip entering ingredients and search recipes directly from the app’s built-in interface.
 
+# Shortcuts
+* F11 = Fullscreen toggle
+* Alt + F11 = Title bar toggle
+
 # Technologies Used
 <a href="https://www.python.org/" target="_blank">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" width="50" height="50"/>
